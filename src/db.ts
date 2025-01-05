@@ -1,13 +1,18 @@
 import mysql from "mysql";
 import util from "util";
+import dotenv from 'dotenv';
+
+
+dotenv.config();
+
 
 var pool = mysql.createPool({
-  connectionLimit: 10,
-  host: "127.0.0.1",
-  user: "root",
-  password: "password",
-  database: "project",
+  host: process.env.DBHOST,
+  user: process.env.DBUSER,
+  password: process.env.DBPASSWORD,
+  database: process.env.DBDATABASE,
 });
+
 
 const query: (sql: string, values?: any[]) => Promise<any> = util
   .promisify(pool.query)
