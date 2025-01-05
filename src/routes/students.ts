@@ -29,9 +29,9 @@ router.get('/', async (req: Request, res: Response) => {
   let mysqlData 
   const {searchName} = req.query
   if(searchName) {
-    mysqlData = await selectFromDatabase('SELECT * FROM react_node WHERE Fullname LIKE ? ORDER BY id DESC', [`%${searchName}%`]);
+    mysqlData = await selectFromDatabase('SELECT * FROM students WHERE Fullname LIKE ? ORDER BY id DESC', [`%${searchName}%`]);
   } else {
-    mysqlData = await selectFromDatabase('SELECT * FROM react_node order by id desc')
+    mysqlData = await selectFromDatabase('SELECT * FROM students order by id desc')
   }
   res.send({"data":mysqlData, "count": mysqlData.length});
 });
@@ -49,7 +49,7 @@ router.post('/add', async (req: Request, res: Response) => {
   }
 
   try {
-    await runQuery('INSERT INTO react_node (Fullname, date) VALUES (?, ?)', [Fullname, date]);
+    await runQuery('INSERT INTO students (Fullname, date) VALUES (?, ?)', [Fullname, date]);
 } catch (error) {
   throw error
 }
@@ -59,14 +59,14 @@ router.post('/add', async (req: Request, res: Response) => {
 router.delete('/remove/:id', async (req: Request, res: Response) => {
   const {id} = req.params
 
-  const mysqlData = await selectFromDatabase('SELECT * FROM react_node where id = ?', [id])
+  const mysqlData = await selectFromDatabase('SELECT * FROM students where id = ?', [id])
   if (!mysqlData.length) {
     res.status(404).send({ message: "Item not found" });
     return
   }
 
   try {
-    await runQuery('delete from react_node where id = ?', [id]);
+    await runQuery('delete from students where id = ?', [id]);
 } catch (error) {
   throw new Error('Failed to delete the user');
 }
@@ -79,7 +79,7 @@ router.put('/edit/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   const { Fullname, date } = req.body;
 
-  const mysqlData = await selectFromDatabase('SELECT * FROM react_node where id = ?', [id])
+  const mysqlData = await selectFromDatabase('SELECT * FROM students where id = ?', [id])
   if (!mysqlData.length) {
     res.status(404).send({ message: "Item not found to update" });
     return
@@ -92,7 +92,7 @@ router.put('/edit/:id', async (req: Request, res: Response) => {
 
 
   try {
-    await runQuery('UPDATE react_node SET Fullname = ?, date = ? WHERE id = ?', [Fullname, date, id]);
+    await runQuery('UPDATE students SET Fullname = ?, date = ? WHERE id = ?', [Fullname, date, id]);
 } catch (error) {
   throw error
 }
