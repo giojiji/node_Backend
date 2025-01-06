@@ -1,5 +1,7 @@
 import express, { Express, Request, Response, Application } from "express";
 import { runQuery, selectFromDatabase } from "../db";
+import validator from 'validator';
+
 
 
 export const router = express.Router();
@@ -10,6 +12,12 @@ router.post("/register", async (req, res) => {
     res.status(400).send({message: "invalid data"})
     return
   }
+
+  if (!validator.isEmail(email)) {
+    res.status(400).send({ message: "invalid email format" });
+    return;
+  }
+
   try {
     await runQuery(
       "insert into users (firstName, lastName, email, mobile, password, token) values (?, ?, ?, ?, ?, UUID())",
@@ -22,6 +30,8 @@ router.post("/register", async (req, res) => {
   }
 
 });
+
+
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
