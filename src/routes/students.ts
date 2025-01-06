@@ -50,10 +50,12 @@ router.post('/add', async (req: Request, res: Response) => {
 
   try {
     await runQuery('INSERT INTO students (Fullname, date) VALUES (?, ?)', [Fullname, date]);
-} catch (error) {
-  throw error
-}
-  res.status(202).send({message: "user created"});
+    res.status(202).send({message: "user created"});
+  }
+  catch (err) {
+      res.status(400).send({message: err})
+  }
+
 });
 
 router.delete('/remove/:id', async (req: Request, res: Response) => {
@@ -67,12 +69,12 @@ router.delete('/remove/:id', async (req: Request, res: Response) => {
 
   try {
     await runQuery('delete from students where id = ?', [id]);
-} catch (error) {
-  throw new Error('Failed to delete the user');
-}
+    res.status(202).send({message: "user deleted"});
+  }
+  catch (err) {
+      res.status(400).send({message: err})
+  }
 
-
-  res.status(202).send({message: "user deleted"});
 });
 
 router.put('/edit/:id', async (req: Request, res: Response) => {
@@ -93,13 +95,12 @@ router.put('/edit/:id', async (req: Request, res: Response) => {
 
   try {
     await runQuery('UPDATE students SET Fullname = ?, date = ? WHERE id = ?', [Fullname, date, id]);
-} catch (error) {
-  throw error
-}
+    res.status(200).send({message: 'Item updated successfully'});  
+  }
+  catch (err) {
+      res.status(400).send({message: err})
+  }
 
-  res.status(200).send({
-    message: 'Item updated successfully'
-  });
 });
 
 
