@@ -16,7 +16,6 @@ export const getStudents  = async (req: Request, res: Response) => {
   res.send({"data":data, "count": data.length});
 };
 
-
 export const addStudent  = async (req: Request, res: Response) => {
     const {Fullname, date} = req.body
     if(!Fullname || !date) {
@@ -38,7 +37,6 @@ export const addStudent  = async (req: Request, res: Response) => {
     }
   
 }
-
 
 export const editStudent  = async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -65,7 +63,6 @@ export const editStudent  = async (req: Request, res: Response) => {
     }
   
 };
-
 
 export const removeStudent = async (req: Request, res: Response) => {
     const {id} = req.params

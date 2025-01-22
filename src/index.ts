@@ -3,6 +3,9 @@ import cors from "cors"
 import dotenv from 'dotenv';
 import { router as studentsRouter } from './routes/students';
 import { router as authRouter } from './routes/auth'
+import { router as profileRouter } from './routes/profile'
+import path from "path";
+
 
 // 201: Created
 // 400: Bad Request
@@ -20,7 +23,18 @@ app.use(cors())
 app.use(express.json());
 
 
+const __dirname = path.resolve();
+
+
+app.use(express.static(path.join(__dirname, "src" , 'public')))
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "src", "views"));
+
+
 app.use("/", authRouter)
+
+app.use("/", profileRouter)
 
 app.use("/students", studentsRouter)
 
