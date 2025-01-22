@@ -18,7 +18,7 @@ export const sendRegistrationEmail = async (email: string, id: string) => {
     <p>Start your journey with us! Finish your registration by verifying your email.</p>
     <p>
       <strong>Click the link below to verify your email:</strong><br>
-      <a href="http://localhost:8080/verifyEmail/${id}" 
+      <a href="/verifyEmail/${id}" 
          style="color: white; background-color: #28a745; padding: 10px 15px; text-decoration: none; border-radius: 5px; display: inline-block;">
          Verify Your Email
       </a>
