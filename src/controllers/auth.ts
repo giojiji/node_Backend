@@ -10,6 +10,7 @@ import { sendPasswordOnMobile } from '../util/smsHelper';
 
 interface RequestType extends Request {
   userId?: string;
+  email?: string
 }
 
 // 201: Created
@@ -81,7 +82,9 @@ export const loginUser  = async (req: Request, res: Response) => {
         email: userData.email,
         mobile: userData.mobile,
         date: userData.date,
-        token: token
+        token: token,
+        hasPhoto: userData.hasPhoto,
+        imageUrl: userData.imageUrl
     })
       return
     }
@@ -206,3 +209,5 @@ export const smsResetPassword = async (req: Request, res: Response) => {
         return
     }
 }
+
+

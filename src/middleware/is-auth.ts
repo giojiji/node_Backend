@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 interface RequestType extends Request {
   userId?: string;
+  email?: string;
 }
 
 dotenv.config();
@@ -30,8 +31,10 @@ export const isAuth = async (req: RequestType, res: Response, next: NextFunction
   }
   if(!decodedToken) {
     res.status(401).send({message: "Not authenticated"});
+    return
   }
   req.userId = decodedToken.id
+  req.email = decodedToken.email
   next()
 }
 
@@ -41,7 +44,7 @@ export const isAuthorized  = async (req: Request, res: Response, next: NextFunct
   if(!email) {
     res.status(401).send({message: "email is required"});
   } else {
-    const userIsAuthorized = await selectFromDatabase('select isAuthorized from users where email = ?', [email])
+    const userIsAuthorized = await selectFromDatabase('select isAuthorized from customers where email = ?', [email])
     if(!userIsAuthorized.length) {
       res.status(401).send({message: "inccorect email"});
       return;

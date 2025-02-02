@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import { router as studentsRouter } from './routes/students';
 import { router as authRouter } from './routes/auth'
 import { router as profileRouter } from './routes/profile'
+import { router as paymentRouter } from './routes/payment'
+import { router as productsRouter } from './routes/products'
 import path from "path";
 
 
@@ -35,6 +37,10 @@ app.set("views", path.join(__dirname, "src", "views"));
 app.use("/", authRouter)
 
 app.use("/", profileRouter)
+
+app.use("/", productsRouter)
+
+app.use("/", paymentRouter)
 
 app.use("/students", studentsRouter)
 

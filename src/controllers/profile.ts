@@ -1,8 +1,13 @@
 import { Request, Response  } from 'express';
-import { selectUserProfile, updateUserPhotoState } from '../models/profile';
+import { selectMyOrders, selectUserProfile, updateUserPhotoState } from '../models/profile';
 import path from 'path';
 import fs from 'fs';
 import { selectUserDataById } from '../models/auth';
+
+export interface RequestType extends Request {
+  userId?: string;
+}
+
 
 
 export const getSelf  = async (req: Request, res: Response) => {
@@ -40,6 +45,23 @@ export const deleteUserPhoto  = async (req: Request, res: Response) => {
 
 
 
+export const getMyOrders  = async (req: RequestType, res: Response) => {
+  const userId = req.userId
+  if(!userId) {
+    res.status(404).send({message: "invalid id"});
+    return
+  }
+  try {
+    const data = await selectMyOrders(userId);
+    res.send({"data": data, "count": data.length});
+    return
+  }
+  catch (error) {
+    res.status(404).send({message: error});
+    return
+  }
+
+};
 
 
 
